@@ -148,6 +148,11 @@ def minMax(grid, player):
 precCaseX, precCaseY = -1, -1
 endGame = False 
 
+if tourBot == 0:
+    dessiner(0,0)
+    grid[0][0] = 0
+    joueur = 1 - joueur
+
 while 1:
     if joueur != tourBot:
         x,y = pygame.mouse.get_pos()
