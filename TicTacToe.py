@@ -35,7 +35,7 @@ tourBot = randint(0,1)
 def check(grid, traceGagnant = True):
     for line in range(3):
         threeInARow = True
-        for col in range(1, 3):
+        for col in range(3):
             if grid[line][col-1] != grid[line][col]:
                 threeInARow = False
                 break
@@ -46,7 +46,7 @@ def check(grid, traceGagnant = True):
     
     for col in range(3):
         threeInARow = True
-        for line in range(1,3):
+        for line in range(3):
             if grid[line][col] != grid[line-1][col]:
                 threeInARow = False
                 break
@@ -56,7 +56,7 @@ def check(grid, traceGagnant = True):
             return grid[0][col]
 
     threeInARow = True
-    for i in range(1, 3):
+    for i in range(3):
         if grid[i][i] != grid[i-1][i-1]:
             threeInARow = False
 
@@ -99,7 +99,6 @@ def dessiner(caseX, caseY, colorRatio = 1):
     else: #J2          
         pygame.draw.circle(screen, (0,255//colorRatio,255//colorRatio), (centerX, centerY), caseSize//2 - 10, 5)
         pygame.display.flip()
-
 
 def minMax(grid, player):
     winner = check(grid, False)
@@ -148,12 +147,14 @@ def minMax(grid, player):
 precCaseX, precCaseY = -1, -1
 endGame = False 
 
+
 if tourBot == 0:
     dessiner(0,0)
     grid[0][0] = 0
     joueur = 1 - joueur
 
-while 1:
+while not(endGame):
+
     if joueur != tourBot:
         x,y = pygame.mouse.get_pos()
         caseX = x // caseSize
@@ -186,12 +187,12 @@ while 1:
                     endGame = True
         
                 joueur = 1 - joueur
-        
+
     else:
         score, nextMove = minMax(grid, joueur)
-
-        dessiner(nextMove[1], nextMove[0])
-        grid[nextMove[0]][nextMove[1]] = joueur
+        if grid[nextMove[0]][nextMove[1]] == -1:
+            dessiner(nextMove[1], nextMove[0])
+            grid[nextMove[0]][nextMove[1]] = joueur
 
         gagnant = check(grid)
         if gagnant == 3:
@@ -205,5 +206,3 @@ while 1:
         joueur = 1 - joueur
     
     pygame.display.flip()
-
-    
